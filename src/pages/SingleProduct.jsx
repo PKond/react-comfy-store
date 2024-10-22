@@ -2,6 +2,8 @@ import { useLoaderData } from "react-router-dom";
 import { formatPrice, customFetch, generateAmountOptions } from "../utils";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addItem } from "../features/cart/cartSlice";
 
 export const loader = async ({ params }) => {
   const response = await customFetch(`/products/${params.id}`);
@@ -20,10 +22,28 @@ const SingleProduct = () => {
     setAmount(parseInt(e.target.value));
   };
 
+  const cartProduct = {
+    cartID: product.id + productColor,
+    productID: product.id,
+    image,
+    title,
+    price,
+    company,
+    productColor,
+    amount,
+  };
+
+  const dispatch = useDispatch();
+
+  const addToCart = () => {
+    dispatch(addItem({ product: cartProduct }));
+  };
+
   return (
     <section>
       <div className="text-md breadcrumbs">
         <ul>
+          F
           <li>
             <Link to="/">Home</Link>
           </li>
@@ -69,23 +89,31 @@ const SingleProduct = () => {
               })}
             </div>
           </div>
-		  {/* AMOUNT */}
-		  <div className="form-control w-full max-w-xs">
-			<label className="label" htmlFor='amount'>
-				<h4 className="text-md font-medium tracking-wider capitalize">
-					Amount 
-				</h4>
-			</label>
-			<select className="select select-secondary select-bordered select-md" id="amount" value={amount} onChange={handleAmount}>
-				{generateAmountOptions(5)}
-			</select>
-		  </div>
-		  {/* CART BTN */}
-		  <div className="mt-10">
-			<button className="btn btn-secondary btn-md" onClick={() => console.log('add to bag')}>
-				Add to bag
-			</button>
-		  </div>
+          {/* AMOUNT */}
+          <div className="form-control w-full max-w-xs">
+            <label className="label" htmlFor="amount">
+              <h4 className="text-md font-medium tracking-wider capitalize">
+                Amount
+              </h4>
+            </label>
+            <select
+              className="select select-secondary select-bordered select-md"
+              id="amount"
+              value={amount}
+              onChange={handleAmount}
+            >
+              {generateAmountOptions(5)}
+            </select>
+          </div>
+          {/* CART BTN */}
+          <div className="mt-10">
+            <button
+              className="btn btn-secondary btn-md"
+              onClick={addToCart}
+            >
+              Add to bag
+            </button>
+          </div>
         </div>
       </div>
     </section>

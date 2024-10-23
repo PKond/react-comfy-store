@@ -3,10 +3,9 @@ import { CartItemsList, SectionTitle, CartTotals } from "../components";
 import { Link } from "react-router-dom";
 
 const Cart = () => {
-  //temp
-  const user = null;
+  const user = useSelector((state) => state.userState.user);
   const numItemsItemsInCart = useSelector(
-    (state) => state.cartState.numItemsItemsInCart
+    (state) => state.cartState.numItemsInCart
   );
 
   if (numItemsItemsInCart === 0) {
@@ -16,19 +15,23 @@ const Cart = () => {
   return (
     <>
       <SectionTitle text="Shopping Cart" />
-	  <div className="mt-8 grid gap-8 lg:grid-cols-12">
-		<div className="lg:col-span-8">
-			<CartItemsList />
-		</div>
-		<div className="lg:col-span-4 lg:pl-4">
-			<CartTotals />
-			{user? <Link to='/checkout' className="btn btn-primary btn-block mt-8">
-				Proceed to checkout
-			</Link> : <Link to='/login' className="btn btn-primary btn-block mt-8">
-				PLEASE LOGIN
-			</Link>  }
-		</div>
-	  </div>
+      <div className="mt-8 grid gap-8 lg:grid-cols-12">
+        <div className="lg:col-span-8">
+          <CartItemsList />
+        </div>
+        <div className="lg:col-span-4 lg:pl-4">
+          <CartTotals />
+          {user ? (
+            <Link to="/checkout" className="btn btn-primary btn-block uppercase mt-8">
+              Proceed to checkout
+            </Link>
+          ) : (
+            <Link to="/login" className="btn btn-primary btn-block mt-8">
+              PLEASE LOGIN
+            </Link>
+          )}
+        </div>
+      </div>
     </>
   );
 };

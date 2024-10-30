@@ -5,28 +5,47 @@ import { toast } from "react-toastify";
 import { loginUser } from "../features/user/userSlice";
 import { useDispatch } from "react-redux";
 
-export const action = (store) => async ({request}) => {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData);
+export const action =
+  (store) =>
+  async ({ request }) => {
+    const formData = await request.formData();
+    const data = Object.fromEntries(formData);
 
-  try {
-    const response = await customFetch.post("/auth/local", data);
-	store.dispatch(loginUser(response.data));
-    toast.success("logged in successfully");
-    return redirect("/");
-	return null;
-  } catch (error) {
-    const errorMessage =
-      error?.response?.data?.error?.message ||
-      "Please double check your credentials";
-    toast.error(errorMessage);
+    try {
+      const response = await customFetch.post("/auth/local", data);
+      store.dispatch(loginUser(response.data));
+      toast.success("logged in successfully");
+      return redirect("/");
+      return null;
+    } catch (error) {
+      const errorMessage =
+        error?.response?.data?.error?.message ||
+        "Please double check your credentials";
+      toast.error(errorMessage);
+      return null;
+    }
+
     return null;
-  }
-
-  return null;
-};
+  };
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const loginAsguestUser = async () => {
+	try {
+		const response = await customFetch.post('/auth/local', {
+			identifier: 'test@test.com',
+			password: 'secret'
+		});
+		dispatch(loginUser(response.data));
+		toast.success('welcome guest user');
+		navigate('/');
+	} catch(error) {
+		console.log(error);
+		toast.error('guest user login error, please try again')
+	}
+  }
   return (
     <section className="h-screen grid place-items-center">
       <Form
@@ -38,18 +57,16 @@ const Login = () => {
           type="email"
           label="email"
           name="identifier"
-          defaultValue="test@test.com"
         />
         <FormInput
           type="password"
           label="password"
           name="password"
-          defaultValue="secret"
         />
         <div className="mt-4">
           <SubmitBtn text="LOGIN" />
         </div>
-        <button type="button" className="btn btn-secondary btn-block">
+        <button type="button" className="btn btn-secondary btn-block" onClick={loginAsguestUser}>
           Guest User
         </button>
         <p className="text-center">

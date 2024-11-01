@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-const CheckoutForm = () => {
-  return (
-	<h1 className="text-3xl">CheckoutForm</h1>
-  )
-=======
 import { Form, redirect } from 'react-router-dom';
 import FormInput from './FormInput';
 import SubmitBtn from './SubmitBtn';
@@ -25,6 +19,5 @@ const CheckoutForm = () => {
 		<SubmitBtn text='place your order' />
 	</div>
   </Form>
->>>>>>> 4c775bd (After Video 508 - Checkout Form - Setup)
 }
 export default CheckoutForm;

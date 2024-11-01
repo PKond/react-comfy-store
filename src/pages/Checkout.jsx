@@ -1,7 +1,5 @@
 import { useSelector } from "react-redux";
 import { CheckoutForm, SectionTitle, CartTotals } from "../components";
-<<<<<<< HEAD
-=======
 import { toast } from "react-toastify";
 
 export const loader = (store) => () => {
@@ -13,7 +11,6 @@ export const loader = (store) => () => {
 	}
 	return null;
 }
->>>>>>> 4c775bd (After Video 508 - Checkout Form - Setup)
 
 const Checkout = () => {
   const cartTotal = useSelector((state) => state.cartState.cartTotal);
